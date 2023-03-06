@@ -1,0 +1,23 @@
+﻿@model WeatherVM
+@{
+    string rain = "~/img/WeatherSVG/rain.svg";
+}
+
+<div class="col-3 ">
+	
+    <div class="WeatherCard ">
+        <div class="Location">@Model.location</div>
+            <div class="Description">@Model.Description</div>
+                <div class="CurrentWeather row">
+                    <div class="Temperature col">@Model.oC
+                        <div class="Celsius">°C </div>
+                        <img src="~/img/WeatherSVG/day-cloudy.svg" width="350px" />
+                    </div>       
+
+                </div>
+        <div class="AirFlow"><img src="~/img/WeatherSVG/airFlow.svg" width="50px" /> 23 m/h</div>       
+        <div class="Rain"><img src="~/img/WeatherSVG/rain.svg" width="50px" /> @Model.Rain %</div>
+    </div>
+        
+
+</div>
