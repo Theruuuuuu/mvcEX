@@ -51,7 +51,7 @@ namespace BulkyBook.DataAccess.DbInitializer
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Comp)).GetAwaiter().GetResult();
 
                 //if roles are not created, then we will create admin user as well
-
+                //資料庫初始化有問題，所以可能要把自動建立的Admin移到外面
                 _userManager.CreateAsync(new ApplicationUser
                 {
                     UserName = "admin@dotnetmastery.com",
