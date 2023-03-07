@@ -106,8 +106,8 @@ body {
     background-color: var(--bs-body-bg);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    background-image: url('../../../img/background.jpg');
-    background-size :cover;
+    background-image: url('https://cutewallpaper.org/21/background-website-images/Savin-NY-Website-Background-Web-Design-Create-Build-Run-.jpg');
+    background-size: cover;
 }
 
 hr {
