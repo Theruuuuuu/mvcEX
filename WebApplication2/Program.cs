@@ -17,8 +17,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultUI().AddDefaultTokenProviders() //Email相關
+builder.Services.AddIdentity<IdentityUser,IdentityRole>(/*option=>option.SignIn.RequireConfirmedEmail = true*/).AddDefaultUI().AddDefaultTokenProviders() //Email相關
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Lockout settings.
+    options.Password.RequireNonAlphanumeric = false;    
+});
+
 //builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
