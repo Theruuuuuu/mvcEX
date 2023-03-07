@@ -1,5 +1,11 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" >
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet" >
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&family=Noto+Serif+TC:wght@700&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet" >
+
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -15,6 +21,12 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+div {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Noto Serif TC', serif;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 .WeatherContainer {
@@ -81,3 +93,10 @@ body {
     font-weight: 300;
     color: #828282;
 }
+
+.googleFontENG {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Noto Serif TC', serif;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
