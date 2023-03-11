@@ -77,12 +77,7 @@ namespace WebApplication2.Controllers
             
             return RedirectToAction(nameof(Index));
         }
-
-        public IActionResult test()
-        {                        
-            return View();
-        }
-                
+             
         public async Task<IActionResult> PrivacyAsync(string? location)
         {
             var httpre = await client.GetAsync(url);
