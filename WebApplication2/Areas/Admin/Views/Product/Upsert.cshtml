@@ -13,12 +13,12 @@
 				@*<div asp-validation-summary="All"></div>*@
 				<div class="mb-3">
 					<lable asp-for="Product.Title">Title</lable>
-					<textarea asp-for="Product.Title" rows="3" class="form-control" ></textarea>
+					<input asp-for="Product.Title" rows="3" class="form-control" ></input>
 					<span asp-validation-for="Product.Title" class="text-danger"></span>
 				</div>
 				<div class="mb-3">
 					<lable asp-for="Product.Description">Description</lable>
-					<input asp-for="Product.Description" class="form-control" />
+					<textarea asp-for="Product.Description" class="form-control"></textarea>
 					<span asp-validation-for="Product.Description" class="text-danger"></span>
 				</div>
 				<div class="mb-3 col-6">
