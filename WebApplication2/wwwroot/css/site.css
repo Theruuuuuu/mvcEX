@@ -2,10 +2,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet" >
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@700&family=Noto+Serif+TC:wght@700&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet" >
-
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&display=swap" rel="stylesheet" >
 
 html {
     font-size: 14px;
+}
+
+.dataTables_info {
+    color: white;
 }
 
 @media (min-width: 768px) {
@@ -23,10 +27,21 @@ body {
   margin-bottom: 60px;
 }
 
+.font1 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-family: 'Noto Serif TC', serif;
+    font-family: 'Noto Serif TC', sans-serif;
+}
+
 div {
     font-family: 'Noto Sans TC', sans-serif;
     font-family: 'Noto Serif TC', serif;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Noto Serif TC', sans-serif;
+}
+
+.TableBackground {
+    background-color: pink;
+    padding-left=5px;
 }
 
 .WeatherContainer {
