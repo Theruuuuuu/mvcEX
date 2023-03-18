@@ -9,17 +9,15 @@
 	<title>@ViewData["Title"] - WebApplication2</title>
 	<link rel="stylesheet" href="~/css/bootwatchTheme.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/WebApplication2.styles.css" asp-append-version="true" />
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-	<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap5.min.css" />
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css" />
+	<link rel="stylesheet" href="~/css/DataTable.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
 </head>
 <body >
 
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 			<img src="~/img/ezgif.com-gif-maker.png"
                 alt="Oops!!"
                 width="45"
@@ -65,6 +63,12 @@
 							管理訂單
 						</a>
 					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" asp-area="Customer" asp-controller="Esg" asp-action="Index">
+							公司評鑑
+						</a>
+					</li>
 				  </ul>
 				  <partial name="_LoginPartial" />
 					@*<form class="d-flex">
@@ -87,36 +91,21 @@
 		  
 
 
-	<footer class="footer text-muted bg-primary fixed-bottom" >
+	<footer class="footer text-muted bg-light fixed-bottom" >
 		<div class="container">
 			&copy; 2022 - WebApplication2 
 		</div>
 	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<script src="https://cdn.tiny.cloud/1/9kk2owkr1xnpp3x466s1q2ulrqwcbh0cu2dvu6pslc1s5e97/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 	<script>
-	$(document).ready(function () {
-    var table = $('#example').DataTable({
-        scrollY: '1000px',
-        paging: false,
-    });
- 
-    $('a.toggle-vis').on('click', function (e) {
-        e.preventDefault();
- 
-        // Get the column API object
-        var column = table.column($(this).attr('data-column'));
- 
-        // Toggle the visibility
-        column.visible(!column.visible());
-		});
-	});
-</script>
+	</script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -21,6 +21,7 @@ namespace BulkyBook.DataAccess.Repository
             ShoppingCart = new ShoppingCartRepository(_db);
             OrderHeader = new OrderHeaderRepository(_db);
             OrderDetail = new OrderDatailRepository(_db);
+            Esg = new EsgRepository(_db);
         }
         public ICategoryRepository Category { get; private set; }
         public ICoverTypeRepository CoverType { get; private set; }
@@ -30,7 +31,7 @@ namespace BulkyBook.DataAccess.Repository
         public IShoppingCartRepository ShoppingCart { get; private set; }
         public IOrderHeaderRepository OrderHeader { get; private set; }
         public IOrderDatailRepository OrderDetail { get; private set; }
-
+        public IEsgRepository Esg { get; private set; }
 
         public void Save()
         {
