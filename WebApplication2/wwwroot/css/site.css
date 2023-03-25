@@ -12,6 +12,15 @@ html {
     color: white;
 }
 
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -24,6 +33,7 @@ html {
 }
 
 body {
+  margin-top: 50px;
   margin-bottom: 60px;
 }
 
