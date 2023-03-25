@@ -17,18 +17,18 @@
 <body >
 
 	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<img src="~/img/ezgif.com-gif-maker.png"
+			<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark ">
+				<img src="~/img/ezgif.com-gif-maker.png"
                 alt="Oops!!"
                 width="45"
-                height="45">
+                height="45"/>
 			  <div class="container-fluid">
 					<a class="navbar-brand " asp-area="Customer" asp-controller="Home" asp-action="Index">The ru</a>
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 					  <span class="navbar-toggler-icon"></span>
 					</button>
 				<div class="collapse navbar-collapse" id="navbarColor02">
-				  <ul class="navbar-nav me-auto">
+				  <ul class="navbar-nav me-auto ">
 					<li class="nav-item">
 							@*<a class="nav-link active" href="#">不知道為啥加這Home文字會往下*@
 					  <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -78,9 +78,9 @@
 				</div>
 			  </div>
 		</nav>
-
+		
 	</header>
-	<div class="container">
+	<div @*class="container "*@>
 		<main role="main" class="pb-3">
 			@*使提示能夠全域*@
 			<partial name="_Notification" />
