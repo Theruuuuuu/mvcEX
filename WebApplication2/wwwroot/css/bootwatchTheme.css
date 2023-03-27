@@ -2242,6 +2242,7 @@ progress {
 
 .form-label {
     margin-bottom: 0.5rem;
+    
 }
 
 .col-form-label {
@@ -2271,6 +2272,7 @@ progress {
 }
 
 .form-control {
+    margin-top:5px;
     display: block;
     width: 100%;
     padding: 0.375rem 1rem;
@@ -2809,6 +2811,7 @@ textarea.form-control-lg {
     }
 
     .form-floating > label {
+        color:black;
         position: absolute;
         top: 0;
         left: 0;
