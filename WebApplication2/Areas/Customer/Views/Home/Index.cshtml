@@ -1,27 +1,69 @@
 ﻿@model IEnumerable<BulkyBook.Models.Product>
+@{
+	var option = Context.Request.Query["option"];
+	var vi = "";
+	var eat = "";
+	var all = "";
+	switch(option){
+		case "虛擬":
+			vi = "active";
+			break;
+		case "食品":
+			eat = "active";
+			break;
+		default:
+			all = "active";
+			break;
+	}
+		
+}
 
-
-<div class="min-vw-100 ">
+<div class="min-vh-60 ">
 	<img src="~/img/backg.jpg" class="w-100"/>
 	<div class="w-100 " style="background-color:#0d131f;align-content:center;">123</div>
 </div>
+
 <div class="container">
 
 	<div class="row pb-3">
 		<div id="option" class="col list-group pt-3">
 		  <a asp-area="Customer" asp-controller="Home" asp-action="Index"
-		  class="list-group-item list-group-item-action" aria-current="true">
+		  class="list-group-item list-group-item-action @all" aria-current="true">
 			全部
 		  </a>
 		  <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option="虛擬" 
-		  class="list-group-item list-group-item-action">虛擬</a>
+		  class="list-group-item list-group-item-action @vi">虛擬</a>
 		  <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option="食品"
-		  class="list-group-item list-group-item-action">食品</a>
-		  
+		  class="list-group-item list-group-item-action @eat">食品</a>	
+
+		 @* <a class="list-group-item list-group-item-action">全部</a>	
+		  <a class="list-group-item list-group-item-action">虛擬</a>	
+		  <a class="list-group-item list-group-item-action">食品</a>	*@
 		</div>
+
 		<div id="productPartial" class="col-9 row">
 			<partial name="~/Views/_productPartial.cshtml" model=Model />
+			@*<div id="product"></div>*@
 		</div>
 		
 	</div>
 </div>
+
+<@*script>
+$(document).ready(function () {
+    // 當 Select 的值改變時，載入對應的部分視圖內容
+    $("#option").click(function () {
+        var option = $("#option Option:active").text();
+        $.ajax({
+            type: 'GET',
+            url: "/Customer/Home/Index?option=" + option, // 請自行替換成你的部分視圖控制器的路徑
+            success: function (result) {
+                $('#product').html(result);
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+    </script>*@
