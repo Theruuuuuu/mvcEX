@@ -69,6 +69,9 @@
       <iframe src="https://www.youtube.com/embed/j6sqs3jEMe8" title="刃牙武藏道｜劍已是不便之物" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
+<input id="search" />
+<div id="searchRes"></div>
+
 @section Scripts{
     <script>
         //$(document).ready(function(){
@@ -78,22 +81,29 @@
         //    })            
         //})
 
-        $(document).ready(function () {
-    // 當 Select 的值改變時，載入對應的部分視圖內容
-    $("#sele").change(function () {
-        var option = $("#sele Option:Selected").text();
-        $.ajax({
-            type: 'GET',
-            url: "/Customer/Home/Weather?option=" + option, // 請自行替換成你的部分視圖控制器的路徑
-            success: function (result) {
-                $('#partialViewContainer').html(result);
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
+    $(document).ready(function () {
+        // 當 Select 的值改變時，載入對應的部分視圖內容
+        $("#sele").change(function () {
+            var option = $("#sele Option:Selected").text();
+            $.ajax({
+                type: 'GET',
+                url: "/Customer/Home/Weather?option=" + option, // 請自行替換成你的部分視圖控制器的路徑
+                success: function (result) {
+                    $('#partialViewContainer').html(result);
+                },
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+       $("#search").keyup(function(){
+           var res = $("#search").val();
+           console.log(res);
+            var a = $("#search").text();
+            $("#searchRes").text(a);
         });
     });
-});
     </script>
 }
 

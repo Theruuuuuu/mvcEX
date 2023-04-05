@@ -31,11 +31,17 @@ namespace WebApplication2.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? option)
         {
-            IEnumerable<Product> products=_unitOfWork.Product.GetAll(includeProperties :"Category,CoverType");
-            return View(products);
+            if(option == null)
+            {
+                IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType");
+                return View(products);
+            }
+            IEnumerable<Product> productss = _unitOfWork.Product.GetAll(u=>u.Category.Name==option,includeProperties: "Category,CoverType");
+            return View(productss);
         }
+
 
         public IActionResult Details(int productid)
         {
