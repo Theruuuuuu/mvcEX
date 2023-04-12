@@ -23,6 +23,7 @@
 * Ajax    
 * Juery   
 * Stripe串接金流    
+* Azure    
 
 功能簡介    
 ---
