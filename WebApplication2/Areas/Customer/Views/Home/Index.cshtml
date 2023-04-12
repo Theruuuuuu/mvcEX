@@ -18,12 +18,43 @@
 		
 }
 
-<div class="min-vh-60 ">
-	<img src="~/img/backg.jpg" class="w-100"/>
-	<div class="w-100 " style="background-color:#0d131f;align-content:center;">123</div>
+<div >
+	<div class="text-center">     
+		<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+		  <div class="carousel-inner">
+			<div class="carousel-item active">
+			  <img src="~/img/Ad1.jpg" class="d-block w-100" alt="tu" width = "250" height="500">
+			</div>
+			<div class="carousel-item">
+			  <img src="~/img/Ad2.jpg" class="d-block w-100" alt="tu" width = "250" height="500">
+			</div>
+			<div class="carousel-item">
+			  <img src="~/img/123.png" class="d-block w-100" alt="xi" width = "250" height="500">
+			</div>
+			<div class="carousel-item">
+			  <img src="~/img/saul.jpg" class="d-block w-100" alt="saul" width = "250" height="500">
+			</div>
+		  </div>
+		  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		  </button>
+		  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		  </button>
+		</div>
+    
+	</div>
 </div>
 
-<div class="container">
+	
+<div class="w-100 mb-3" style="background-color:#0d131f">
+	下方資料僅供測試
+</div>
+
+
+<div class="container border border-3 " style="border-radius: 10px;border-color:#0c1321">
 
 	<div class="row pb-3">
 		<div id="option" class="col list-group pt-3">
@@ -49,7 +80,7 @@
 	</div>
 </div>
 
-<@*script>
+@*<script>
 $(document).ready(function () {
     // 當 Select 的值改變時，載入對應的部分視圖內容
     $("#option").click(function () {

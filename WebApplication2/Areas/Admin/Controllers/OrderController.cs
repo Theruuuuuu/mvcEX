@@ -46,16 +46,17 @@ namespace WebApplication2.Areas.Admin.Controllers
 
             //stripe settings 
             var domain = "https://localhost:44332/";
+            var onlineServer = "https://dotnetmvc0305.azurewebsites.net/";
             var options = new SessionCreateOptions
-            {
+            {   
                 PaymentMethodTypes = new List<string>
                 {
                   "card",
                 },
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
-                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderid={orderVM.OrderHeader.Id}",
-                CancelUrl = domain + $"admin/order/details?orderId={orderVM.OrderHeader.Id}",
+                SuccessUrl = onlineServer + $"admin/order/PaymentConfirmation?orderHeaderid={orderVM.OrderHeader.Id}",
+                CancelUrl = onlineServer + $"admin/order/details?orderId={orderVM.OrderHeader.Id}",
             };
 
             foreach (var item in orderVM.OrderDetail)

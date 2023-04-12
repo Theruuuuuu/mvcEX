@@ -2,12 +2,10 @@
 @{
     ViewBag.Title = "What's up!!";
 }
-@{
-    var name ="臺北市";
-}
 
 
-<div class="text-center">
+@*輪播*@
+@*<div class="text-center">
     <h1 class="display-4">Welcome</h1>    
     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -31,11 +29,12 @@
       </button>
     </div>
     
-</div>
+</div>*@
 
-<div class="mb-3 col-6">	
+<div class="container pt-5 mb-5">	
+    <h1>串接氣象API測試</h1>
 	<select id="sele"  asp-items="ViewBag.SelectList" class="form-select">
-		<option disabled selected>--Select CoverType--</option>
+		<option disabled selected>--選擇地區--</option>
 	</select>
 </div>
 <span id="span1"></span>
@@ -64,13 +63,6 @@
 </div>*@
 
 <div id="partialViewContainer"></div>
-
-<div class="container p-3">
-      <iframe src="https://www.youtube.com/embed/j6sqs3jEMe8" title="刃牙武藏道｜劍已是不便之物" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-
-<input id="search" />
-<div id="searchRes"></div>
 
 @section Scripts{
     <script>

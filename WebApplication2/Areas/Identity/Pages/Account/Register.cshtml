@@ -2,7 +2,7 @@
 @using BulkyBook.Utility
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "註冊帳號";
 
     if (User.IsInRole(SD.Role_Admin)){
         ViewData["Title"] = "Admin 建立帳戶區";        
@@ -20,7 +20,7 @@
     <div class="row pt-4" >
         <div class="col-md-7">
             <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h2>Create a new account.</h2>
+                <h2>建立帳戶</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating py-2 col-12">
@@ -82,14 +82,14 @@
                     </div>
                 }
             
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-primary">Register</button>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-primary">註冊</button>
             </form>
         </div>
 
         @if(!User.IsInRole(SD.Role_Admin)){
             <div class="col-md-5">
             <section>
-                <h3>Use another service to register.</h3>
+                <h3>使用其他方式註冊</h3>
                 <hr />
                 @{
                     if ((Model.ExternalLogins?.Count ?? 0) == 0)
