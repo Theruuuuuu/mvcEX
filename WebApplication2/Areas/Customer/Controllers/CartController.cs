@@ -189,6 +189,11 @@ namespace WebApplication2.Areas.Customer.Controllers
                     _unitOfWork.Save();
                 }
             }
+            else if(orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            {
+                _unitOfWork.OrderHeader.UpdateStriptPaymentID(id, "尚未付款待確認", "尚未付款待確認");
+                _unitOfWork.Save();
+            }
             _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "新訂單", "<p>產品正在處理中</p>");
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u=>u.ApplicationUserId==
             orderHeader.ApplicationUserId).ToList();

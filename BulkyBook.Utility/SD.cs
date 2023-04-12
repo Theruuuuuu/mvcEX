@@ -13,17 +13,18 @@ namespace BulkyBook.Utility
         public const string Role_Admin = "Admin";
         public const string Role_Employee = "Employee";
 
-        public const string StatusPending = "Pending";
-        public const string StatusApproved = "Approved";
-        public const string StatusInProcess = "Processing";
-        public const string StatusShipped = "Shipped";
-        public const string StatusCancelled = "Cancelled";
-        public const string StatusRefunded = "Refunded";
+        public const string StatusPending = "待辦";
+        public const string StatusApproved = "已確認";
+        public const string StatusInProcess = "處理中";
+        public const string StatusShipped = "已送達";
+        public const string StatusCancelled = "已取消";
+        public const string StatusRefunded = "已退款";
 
-        public const string PaymentStatusPending = "Pending";
-        public const string PaymentStatusApproved = "Approved";
-        public const string PaymentStatusDelayedPayment = "ApprovedForDelayedPayment";
-        public const string PaymentStatusRejected = "Rejected";
+        //公司帳戶可以貨到付款
+        public const string PaymentStatusPending = "待辦";
+        public const string PaymentStatusApproved = "已確認";
+        public const string PaymentStatusDelayedPayment = "已確認延遲付款";
+        public const string PaymentStatusRejected = "已拒絕";
 
         public const string SessionCart = "SessionShoppingCart";
     }
