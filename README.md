@@ -8,6 +8,10 @@
 >一般用戶  zxcCustomer@1111  Password123   
 >企業用戶  zxcCompany@1111 Password123   
 
+>信用卡付款介面    
+>卡號 4242424242424242    
+>到期日/安全碼 任意
+
 使用技術
 ---   
 * Asp.net 6 Mvc   
