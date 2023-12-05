@@ -2,7 +2,7 @@
 ===
 學習於Udemy課程   
 成品網址(建議使用無痕視窗，檢視完整頁面)    
-https://dotnetmvc0305.azurewebsites.net/   
+https://dotnetmvc0305.azurewebsites.net/   (已移除)
 
 >測試帳號   
 >後台  admin@dotnetmastery.com  Admin123*   
