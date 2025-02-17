@@ -1,21 +1,7 @@
 ﻿@model IEnumerable<BulkyBook.Models.Product>
+
 @{
 	var option = Context.Request.Query["option"];
-	var vi = "";
-	var eat = "";
-	var all = "";
-	switch(option){
-		case "虛擬":
-			vi = "active";
-			break;
-		case "食品":
-			eat = "active";
-			break;
-		default:
-			all = "active";
-			break;
-	}
-		
 }
 
 <div >
@@ -59,17 +45,19 @@
 	<div class="row pb-3">
 		<div id="option" class="col list-group pt-3">
 		  <a asp-area="Customer" asp-controller="Home" asp-action="Index"
-		  class="list-group-item list-group-item-action @all" aria-current="true">
+			   class="list-group-item list-group-item-action @(string.IsNullOrEmpty(option)  ? "active" : "")" aria-current="true">
 			全部
 		  </a>
-		  <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option="虛擬" 
-		  class="list-group-item list-group-item-action @vi">虛擬</a>
+		  @* <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option="虛擬" 
+		  class="list-group-item list-group-item-action">虛擬</a>
 		  <a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option="食品"
-		  class="list-group-item list-group-item-action @eat">食品</a>	
+		  class="list-group-item list-group-item-action">食品</a> *@
 
-		 @* <a class="list-group-item list-group-item-action">全部</a>	
-		  <a class="list-group-item list-group-item-action">虛擬</a>	
-		  <a class="list-group-item list-group-item-action">食品</a>	*@
+			@foreach (var category in ViewBag.categories)
+			{
+				<a asp-area="Customer" asp-controller="Home" asp-action="Index" asp-route-option=@category.Name
+				   class="list-group-item list-group-item-action  @(option == category.Name ? "active" : "") ">@category.Name</a>
+			}
 		</div>
 
 		<div id="productPartial" class="col-9 row">

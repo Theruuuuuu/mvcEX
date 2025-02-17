@@ -25,7 +25,7 @@ namespace BulkyBook.DataAccess.Repository
         {
             //_db.Products.Update(obj);
             //嚴謹的更新方式
-            var objFromDb = _db.Products.FirstOrDefault(u => u.id == obj.id);
+            var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb != null)
             {
                 objFromDb.Title = obj.Title;

@@ -75,7 +75,7 @@ namespace WebApplication2.Controllers
             }
             else
             {
-                productVM.Product=_db.Product.GetFirstOrDefault(n=>n.id==id);
+                productVM.Product=_db.Product.GetFirstOrDefault(n=>n.Id ==id);
                 return View(productVM);
                 //如果有就更新
             }
@@ -118,7 +118,7 @@ namespace WebApplication2.Controllers
                     }
                     obj.Product.ImageUrl = @"img\products\" + fileName + extension;
                 }
-                if(obj.Product.id == 0)
+                if(obj.Product.Id == 0)
                 {
                     _db.Product.Add(obj.Product);
                 }
@@ -145,7 +145,7 @@ namespace WebApplication2.Controllers
         [HttpDelete]     
         public IActionResult Delete(int? id)
         {
-            var obj = _db.Product.GetFirstOrDefault(u => u.id == id);
+            var obj = _db.Product.GetFirstOrDefault(u => u.Id == id);
             if (obj == null)
             {
                 return Json(new { success=false,message="Error while deleting"});

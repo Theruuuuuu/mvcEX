@@ -33,6 +33,7 @@ namespace WebApplication2.Controllers
 
         public IActionResult Index(string? option)
         {
+            ViewBag.categories = _unitOfWork.Category.GetAll();
             if(option == null)
             {
                 IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType");
@@ -48,7 +49,7 @@ namespace WebApplication2.Controllers
             ShoppingCart Cartobj = new()
             {
                 Productid = productid,
-                Product = _unitOfWork.Product.GetFirstOrDefault(u => u.id == productid, includeProperties: "Category,CoverType"),
+                Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productid, includeProperties: "Category,CoverType"),
                 Count = 1 //預設1 
             };
             return View(Cartobj);

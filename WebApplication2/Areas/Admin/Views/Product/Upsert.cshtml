@@ -1,13 +1,13 @@
 ﻿@model BulkyBook.Models.ViewModels.ProductViewModel
 @*上傳檔案必須要multipart/form-data*@
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-	<input asp-for="Product.id" hidden/>
+	<input asp-for="Product.Id" hidden/>
 	<input asp-for="Product.ImageUrl" hidden/>
 	<div class="row">
 		<div class="col-10">
 			<div class="border p-3 mt-4 row" >
 				<div class="col-12 pb-2">
-					<h2 class="text-primary">@(Model.Product.id==0 ? "Create" : "Update") Product</h2>
+					<h2 class="text-primary">@(Model.Product.Id==0 ? "Create" : "Update") Product</h2>
 					<hr />
 				</div>
 				@*<div asp-validation-summary="All"></div>*@
@@ -71,7 +71,7 @@
 					<span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
 				</div>
 				<div class="mb-3">
-				@if (Model.Product.id==0)
+				@if (Model.Product.Id==0)
 				{
 					@*確認是否有圖片 所以呼叫自訂函式validateInput 來幫助我們驗證是否有圖片*@
 					<button type="submit" onclick="return validateInput()" class="btn btn-primary" style="width:150px">Create</button>

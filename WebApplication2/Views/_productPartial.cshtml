@@ -14,11 +14,11 @@
 								<p>建議售價:<strike><b>$@product.ListPrice.ToString("0.00")</b></strike></p>
 							</div>
 							<div class="pl-1">
-								<p>現在只要:<b>$@product.Price100.ToString("0.00")</b></p>
+								<p>現在只要:<b>$@product.Price.ToString("0.00")</b></p>
 							</div>
 						</div>
 						<div>
-							<a asp-action="Details" class="btn btn-light form-control" asp-route-productid="@product.id">Details</a>
+							<a asp-action="Details" class="btn btn-light form-control" asp-route-productid="@product.Id">Details</a>
 						</div>
 					</div>								
 			</div>
