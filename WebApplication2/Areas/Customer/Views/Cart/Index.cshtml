@@ -1,7 +1,7 @@
 ﻿@model BulkyBook.Models.ViewModels.ShoppingCartVM
 <form method="post" class="p-2">
 	<br />
-	<div class="container p-4" >
+	<div class="container p-4">
 		<div class="card">
 			<div class="card-header text-dark ml-0" style="background-color:#0d1a1a">
 				<div class="row">
@@ -16,39 +16,81 @@
 			</div>
 
 			<div class="card-body">
-				@foreach(var item in Model.ListCart){
 				<div class="row">
 					<div class=" d-lg-block col-4 col-lg-2 text-center py-2">
-						<img src="~/@item.Product.ImageUrl" class="rounded" width="100%" />
 					</div>
-					<div class="col-8 col-lg-6 pt-md-3">
-						<h5><strong>@Html.Raw(item.Product.Title)</strong></h5>
-						<p><small>@Html.Raw(item.Product.Description)</small></p>
+					<div class="row col-8 col-lg-6 pt-md-3">
+						<div class="col-8">
+							<h5><strong>商品</strong></h5>
+						</div>
+						<div class="col-4">
+							<h5><strong>單價</strong></h5>
+						</div>
 					</div>
 					<div class="col-12  col-lg-4 text-center row">
-						<div class="col-4 text-md-right pt-4">
-							<h6><strong>@item.Price.ToString("c")
-								<span class="text-danger">&nbsp;x&nbsp;</span>@item.Count </strong></h6>
-						</div>
 						<div class="col-6 col-sm-4 col-lg-6 pt-2">
 							<div class="w-75 btn-group" role="group">
-								<a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
-									<i class="bi bi-plus-square"></i>
-								</a> &nbsp;
-								<a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-warning">
-									<i class="bi bi-dash-square"></i>
-								</a>
+								數量
 							</div>
-
+						</div>
+						<div class="col-4 text-md-right pt-4">
+							總價
 						</div>
 						<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
-							<a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
-								<i class="bi bi-trash-fill"></i>
-							</a>
+							---
 						</div>
 					</div>
 				</div>
 				<hr />
+				@foreach (var item in Model.ListCart)
+				{
+					<div class="row">
+						<div class=" d-lg-block col-4 col-lg-2 text-center py-2">
+							<img src="~/@item.Product.ImageUrl" class="rounded" width="100%" />
+						</div>
+						<div class="row col-8 col-lg-6 pt-md-3">
+							<div class="col-8">
+								<h5><strong>@Html.Raw(item.Product.Title)</strong></h5>
+								<p><small>@Html.Raw(item.Product.Description)</small></p>
+							</div>
+							<div class="col-4">
+								@item.Price.ToString("c0")
+							</div>
+						</div>
+						<div class="col-12  col-lg-4 text-center row">
+							<div class="col-6 col-sm-4 col-lg-6 pt-2">
+								<div class="w-75 btn-group" role="group">
+									<a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+										<i class="bi bi-plus-square"></i>
+									</a> &nbsp;
+									<input type="text"
+										   name="count"
+										   inputmode="numeric"
+										   pattern="[0-9]*"
+										   size="2"
+										   onchange="updateCountAjax(@item.Id, this.value)"
+										   value="@item.Count" />
+									<a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-warning">
+										<i class="bi bi-dash-square"></i>
+									</a>
+								</div>
+
+							</div>
+							<div class="col-4 text-md-right pt-4">
+								<strong>
+									<h5>
+										@((@item.Price * @item.Count).ToString("c0"))
+									</h5>
+								</strong>
+							</div>
+							<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
+								<a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
+									<i class="bi bi-trash-fill"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+					<hr />
 				}
 				<div class="row">
 					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
@@ -73,3 +115,27 @@
 		</div>
 	</div>
 </form>
+
+
+<script>
+	function updateCountAjax(cartId, count) {
+		console.log(cartId +'---'+count)
+		// 組成 x-www-form-urlencoded 的 body
+		const body = new URLSearchParams();
+		body.append("cartId", cartId);
+		body.append("count", count);
+		fetch('/Customer/Cart/UpdateCount', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			},
+			body: body.toString()
+		}).then(res => {
+			if (res.ok) {
+				location.reload(); // ✅畫面立即更新
+			}
+		})
+	}
+
+</script>
+

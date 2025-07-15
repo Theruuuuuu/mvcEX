@@ -221,11 +221,19 @@ namespace WebApplication2.Areas.Customer.Controllers
             else
             {
                 _unitOfWork.ShoppingCart.DecrementCount(cart, 1);
-            }            
+            }
             _unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Remove(int cartId)
+		[HttpPost]
+		public IActionResult UpdateCount(int cartId, int count)
+		{
+			var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
+            cart.Count = count;
+			_unitOfWork.Save();
+			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult Remove(int cartId)
         {
             var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u => u.Id == cartId);
             _unitOfWork.ShoppingCart.Remove(cart);
