@@ -129,7 +129,7 @@ namespace WebApplication2.Areas.Customer.Controllers
 
 			//付款處理
 			//回傳付款網址
-			Task<string> res = PayHandler();
+			Task<string> res = PayHandler(ShoppingCartVM);
 
 			//付款成功才刪除購物車內容
 			//_unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ListCart);
@@ -137,36 +137,39 @@ namespace WebApplication2.Areas.Customer.Controllers
 			return Redirect(res.Result);
 		}
 
-		public async Task<string> PayHandler()
+		public async Task<string> PayHandler(ShoppingCartVM shoppingCartVM)
 		{
+			var domain = "https://localhost:7097/";
 			var helper = new LinePayHelper();
 			var response = await helper.RequestOnlineAPIAsync(
 				HttpMethod.Post,
 				"/v3/payments/request",
 				data: new
 				{
-					amount = 100,
+					amount = (int)shoppingCartVM.ListCart.Sum(u => u.Price * u.Count),
 					currency = "TWD",
-					orderId = "order123",
+					orderId = shoppingCartVM.OrderHeader.Id,
 					packages = new[]
 					{
-			new {
-				id = "pkg-1",
-				amount = 100,
-				name = "測試包",
-				products = new[] {
-					new {
-						name = "商品",
-						quantity = 1,
-						price = 100
-					}
-				}
-			}
+						new {
+							id = "pkg-1",
+							amount = (int)shoppingCartVM.ListCart.Sum(u => u.Price * u.Count),
+							name = "測試包",
+							products = shoppingCartVM.ListCart.Select(u => new LinepayDTO
+							{
+								id = u.Id.ToString(),
+								name = u.Product.Title,
+								imageUrl = u.Product.ImageUrl,
+								quantity = u.Count,
+								price = (int)u.Price,
+							})
+
+						}
 					},
 					redirectUrls = new
 					{
-						confirmUrl = "https://www.twitch.tv/m989876525",
-						cancelUrl = "https://www.twitch.tv/caedrel"
+						confirmUrl = domain + $"customer/cart/OrderConfirmation?id={shoppingCartVM.OrderHeader.Id}",
+						cancelUrl = domain + $"customer/cart/index",
 					}
 				}
 			);
@@ -177,31 +180,31 @@ namespace WebApplication2.Areas.Customer.Controllers
 		public IActionResult OrderConfirmation(int id)
 		{
 			OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
-			if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
-			{
-				var service = new SessionService();
-				Session session = service.Get(orderHeader.SessionId);
-				//檢查stripe狀態
-				if (session.PaymentStatus.ToLower() == "paid")
-				{
-					//PaymentIntentId再付款後才會有值
-					_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, session.Id, session.PaymentIntentId);
-					//
-					_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
-					_unitOfWork.Save();
-				}
-			}
-			else if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
-			{
-				_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, "尚未付款待確認", "尚未付款待確認");
-				_unitOfWork.Save();
-			}
-			_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "新訂單", "<p>產品正在處理中</p>");
-			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId ==
-			orderHeader.ApplicationUserId).ToList();
-			HttpContext.Session.Clear();
-			_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
-			_unitOfWork.Save();
+			//if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+			//{
+			//	var service = new SessionService();
+			//	Session session = service.Get(orderHeader.SessionId);
+			//	//檢查stripe狀態
+			//	if (session.PaymentStatus.ToLower() == "paid")
+			//	{
+			//		//PaymentIntentId再付款後才會有值
+			//		_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, session.Id, session.PaymentIntentId);
+			//		//
+			//		_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+			//		_unitOfWork.Save();
+			//	}
+			//}
+			//else if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+			//{
+			//	_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, "尚未付款待確認", "尚未付款待確認");
+			//	_unitOfWork.Save();
+			//}
+			//_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "新訂單", "<p>產品正在處理中</p>");
+			//List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId ==
+			//orderHeader.ApplicationUserId).ToList();
+			//HttpContext.Session.Clear();
+			//_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
+			//_unitOfWork.Save();
 			return View(id);
 		}
 		public IActionResult Plus(int cartId)
