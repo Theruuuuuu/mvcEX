@@ -38,12 +38,11 @@ namespace BulkyBook.DataAccess.Repository
             }
         }
 
-        public void UpdateStriptPaymentID(int id, string sessionId, string paymentItentId)
+        public void UpdateStriptPaymentID(int id, string paymentItentId)
         {
             //抓資料直接更新
             var orderFromDb = _db.OrderHeaders.FirstOrDefault(x => x.Id == id);
             orderFromDb.PaymentDate = DateTime.Now;
-            orderFromDb.SessionId = sessionId;
             orderFromDb.PaymentIntentId = paymentItentId;
         }
     }

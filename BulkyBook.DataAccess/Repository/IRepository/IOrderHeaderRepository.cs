@@ -11,6 +11,6 @@ namespace BulkyBook.DataAccess.Repository.IRepository
     {
         void Update(OrderHeader obj);
         void UpdateStatus(int id,string orderStatus,string? paymentStatus=null);//paymentStatus不一定每次都要更新
-        void UpdateStriptPaymentID(int id, string sessionId, string paymentItentId);
+        void UpdateStriptPaymentID(int id, string paymentItentId);
     }
 }

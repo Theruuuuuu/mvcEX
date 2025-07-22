@@ -11,6 +11,7 @@ using Stripe.Checkout;
 using System.Drawing;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace WebApplication2.Areas.Customer.Controllers
 {
@@ -97,13 +98,14 @@ namespace WebApplication2.Areas.Customer.Controllers
 				ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
 			}
 
-			//公司與個人客戶的邏輯不一樣
 			ApplicationUser applicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == claims.Value);
+			//個人戶必須要先付款
 			if (applicationUser.CompanyId.GetValueOrDefault() == 0)
 			{
 				ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
 				ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
 			}
+			//公司戶可延遲付款
 			else
 			{
 				ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
@@ -131,16 +133,30 @@ namespace WebApplication2.Areas.Customer.Controllers
 			//回傳付款網址
 			Task<string> res = PayHandler(ShoppingCartVM);
 
-			//付款成功才刪除購物車內容
-			//_unitOfWork.ShoppingCart.RemoveRange(ShoppingCartVM.ListCart);
-			//_unitOfWork.Save();
-			return Redirect(res.Result);
+			var jsondoc = JsonDocument.Parse(res.Result);
+			string? webUrl = jsondoc
+							.RootElement
+							.GetProperty("info")
+							.GetProperty("paymentUrl")
+							.GetProperty("web")
+							.GetString();
+			string? transcationId = jsondoc
+							.RootElement
+							.GetProperty("info")
+							.GetProperty("transactionId")
+							.GetRawText();
+			//訂單成立 給予此訂單Linepay交易ID
+			_unitOfWork.OrderHeader.UpdateStriptPaymentID(ShoppingCartVM.OrderHeader.Id, transcationId);
+			_unitOfWork.Save();
+			//導向付款網址
+			return Redirect(webUrl);
 		}
 
 		public async Task<string> PayHandler(ShoppingCartVM shoppingCartVM)
 		{
 			var domain = "https://localhost:7097/";
 			var helper = new LinePayHelper();
+			//data格式固定
 			var response = await helper.RequestOnlineAPIAsync(
 				HttpMethod.Post,
 				"/v3/payments/request",
@@ -152,7 +168,7 @@ namespace WebApplication2.Areas.Customer.Controllers
 					packages = new[]
 					{
 						new {
-							id = "pkg-1",
+							id = shoppingCartVM.OrderHeader.Id,
 							amount = (int)shoppingCartVM.ListCart.Sum(u => u.Price * u.Count),
 							name = "測試包",
 							products = shoppingCartVM.ListCart.Select(u => new LinepayDTO
@@ -168,7 +184,7 @@ namespace WebApplication2.Areas.Customer.Controllers
 					},
 					redirectUrls = new
 					{
-						confirmUrl = domain + $"customer/cart/OrderConfirmation?id={shoppingCartVM.OrderHeader.Id}",
+						confirmUrl = domain + $"customer/cart/OrderConfirmation?id={shoppingCartVM.OrderHeader.Id}&transactionId=",
 						cancelUrl = domain + $"customer/cart/index",
 					}
 				}
@@ -176,35 +192,31 @@ namespace WebApplication2.Areas.Customer.Controllers
 			return response;
 		}
 
-
+		//付款成功頁面
 		public IActionResult OrderConfirmation(int id)
 		{
 			OrderHeader orderHeader = _unitOfWork.OrderHeader.GetFirstOrDefault(u => u.Id == id, includeProperties: "ApplicationUser");
-			//if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
-			//{
-			//	var service = new SessionService();
-			//	Session session = service.Get(orderHeader.SessionId);
-			//	//檢查stripe狀態
-			//	if (session.PaymentStatus.ToLower() == "paid")
-			//	{
-			//		//PaymentIntentId再付款後才會有值
-			//		_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, session.Id, session.PaymentIntentId);
-			//		//
-			//		_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
-			//		_unitOfWork.Save();
-			//	}
-			//}
+			//如果是個人戶
+			if (orderHeader.PaymentStatus != SD.PaymentStatusDelayedPayment)
+			{
+				//付款完成修改訂單狀態為已完成
+				_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+				_unitOfWork.Save();
+			}
+
+			//預計刪除公司戶設定
 			//else if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
 			//{
-			//	_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, "尚未付款待確認", "尚未付款待確認");
+			//	_unitOfWork.OrderHeader.UpdateStriptPaymentID(id, "尚未付款待確認");
 			//	_unitOfWork.Save();
 			//}
 			//_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "新訂單", "<p>產品正在處理中</p>");
-			//List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId ==
-			//orderHeader.ApplicationUserId).ToList();
-			//HttpContext.Session.Clear();
-			//_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
-			//_unitOfWork.Save();
+			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId ==
+			orderHeader.ApplicationUserId).ToList();
+			_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
+			_unitOfWork.Save();
+			//清除購物車數量
+			HttpContext.Session.Clear();
 			return View(id);
 		}
 		public IActionResult Plus(int cartId)

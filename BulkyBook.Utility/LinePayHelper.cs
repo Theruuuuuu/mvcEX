@@ -54,17 +54,11 @@ public class LinePayHelper
 		using var client = new HttpClient();
 		var response = await client.SendAsync(request, cancellationToken);
 		var responseText = await response.Content.ReadAsStringAsync(cancellationToken);
-		var jsondoc = JsonDocument.Parse(responseText);
-		string webUrl = jsondoc
-						.RootElement
-						.GetProperty("info")
-						.GetProperty("paymentUrl")
-						.GetProperty("web")
-						.GetString();
+		
 
 
 		// 可根據需求進行 BigInt 處理（如 Newtonsoft.Json 支援即可）
-		return webUrl;
+		return responseText;
 	}
 
 	private string SignKey(string key, string message)
